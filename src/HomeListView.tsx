@@ -1,8 +1,7 @@
 import { Home, Page } from "./Model";
 import React from "react";
-import { contains, openLink, noop } from "./Utils";
+import { noop } from "./Utils";
 import { HomeTileView } from "./HomeTileView";
-import { getFavouriteHomes } from "./Db";
 export function HomeListView(params: {
   homes: Page<Home>;
   nextPageClicked: () => void;
@@ -22,7 +21,7 @@ export function HomeListView(params: {
       >
         <button
           className="pagination-previous"
-          disabled={params.homes.number == 0}
+          disabled={params.homes.number === 0}
           onClick={params.previousPageClicked}
         >
           Previous
@@ -35,7 +34,7 @@ export function HomeListView(params: {
         <button
           className="pagination-next"
           style={{ marginRight: "15px" }}
-          disabled={params.homes.number + 1 == params.homes.totalPages}
+          disabled={params.homes.number + 1 === params.homes.totalPages}
           onClick={params.nextPageClicked}
         >
           Next

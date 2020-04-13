@@ -1,4 +1,4 @@
-import { Home, isHome } from "./Model";
+import { Home } from "./Model";
 import { contains, openLink, copyToClipboard } from "./Utils";
 import React, { useEffect, useState } from "react";
 import { getFavouriteHomeById, removeFavouriteHome, favouriteHome } from "./Db";
@@ -42,6 +42,24 @@ export function HomeTileView(props: {
     setState({ isFavorite: false });
     props.onUnfavourite(props.home.id);
   }
+
+  function share() {
+    copyToClipboard(props.home.link);
+    // notificationStore.addNotification({
+    //   title: "Copied to clipboard",
+    //   message: props.home.link,
+    //   type: "success",
+    //   insert: "top",
+    //   container: "bottom-center",
+    //   animationIn: ["animated", "fadeIn"],
+    //   animationOut: ["animated", "fadeOut"],
+    //   dismiss: {
+    //     duration: 2000,
+    //     // onScreen: true,
+    //   },
+    // });
+    // }
+  }
   const favouriteButton = (isFavourite: boolean) => {
     return isFavourite ? (
       <a className="level-item" onClick={removeFavourite}>
@@ -80,7 +98,7 @@ export function HomeTileView(props: {
             </div>
           </div>
           <div className="level-right">
-            <a className="level-item" onClick={(_)=> copyToClipboard(props.home.link)}>
+            <a className="level-item" onClick={share}>
               <span className="icon has-text-primary">
                 <i className="fas fa-share-alt"></i>
               </span>

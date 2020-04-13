@@ -19,7 +19,11 @@ export function HomesView() {
     searchSettings: { city: "", lowerPrice: 0, upperPrice: 0 },
   });
   useEffect(() => {
-    getCities().then((_) => setState({ ...state, cities: _ }));
+    getCities().then((_) =>
+      setState((s) => {
+        return { ...s, cities: _ };
+      })
+    );
   }, []);
 
   const updateHomes = (settings: HomeSearchSettings, page: number) => {
@@ -45,8 +49,6 @@ export function HomesView() {
   const getNextPage = () => {
     updateHomes(state.searchSettings, state.page + 1);
   };
-
-  const favouriteHome = (_: number) => {};
 
   return (
     <div>

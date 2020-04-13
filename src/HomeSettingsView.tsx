@@ -1,5 +1,5 @@
 import { range } from "./Utils";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import React from "react";
 import { HomeSearchSettings } from "./Model";
 
@@ -16,7 +16,7 @@ export function HomeSettingsView(props: {
   const priceOptions = (selectedPrice: number) =>
     range(4, 41)
       .map((_) => _ * 250)
-      .map((_) => <option selected={_ == selectedPrice}>{_}</option>);
+      .map((_) => <option selected={_ === selectedPrice}>{_}</option>);
 
   const cityOptions = [
     <option disabled={true} selected={true} hidden={false}></option>,
