@@ -1,6 +1,6 @@
 import { Home, Page } from "./Model";
 import React from "react";
-import { contains, openLink } from "./Utils";
+import { contains, openLink, noop } from "./Utils";
 import { HomeTileView } from "./HomeTileView";
 import { getFavouriteHomes } from "./Db";
 export function HomeListView(params: {
@@ -14,7 +14,7 @@ export function HomeListView(params: {
       style={{ flexDirection: "column-reverse" }}
     >
       {params.homes.content.map((_) => (
-        <HomeTileView home={_}></HomeTileView>
+        <HomeTileView home={_} onUnfavourite={noop}></HomeTileView>
       ))}
       <div
         className="pagination is-centered is-rounded m-t-sm m-b-sm"

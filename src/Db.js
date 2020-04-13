@@ -25,6 +25,10 @@ request.onupgradeneeded = function (event) {
   objectStore.createIndex("id", "id", { unique: true });
 };
 
+const pipeResult = (onSuccess) => (e) => {
+  onSuccess(e.target.result);
+};
+
 export const favouriteHome = (home) => {
   return db
     .transaction(["favouriteHomes"], "readwrite")
@@ -32,12 +36,13 @@ export const favouriteHome = (home) => {
     .add(home);
 };
 
-export const getFavouriteHomes = () => {
+export const getFavouriteHomes = (onSuccess) => {
   if (db) {
-    return db
+    const request = db
       .transaction("favouriteHomes")
       .objectStore("favouriteHomes")
       .getAll();
+    request.onsuccess = pipeResult(onSuccess);
   } else {
     return [];
   }
@@ -48,9 +53,7 @@ export const getFavouriteHomeById = (id, onSuccess) => {
       .transaction("favouriteHomes")
       .objectStore("favouriteHomes")
       .get(id);
-    request.onsuccess = (e) => {
-      onSuccess(e.target.result);
-    };
+    request.onsuccess = pipeResult(onSuccess);
   } else {
     return {};
   }

@@ -1,5 +1,5 @@
 import { Home, isHome } from "./Model";
-import { contains, openLink } from "./Utils";
+import { contains, openLink, copyToClipboard } from "./Utils";
 import React, { useEffect, useState } from "react";
 import { getFavouriteHomeById, removeFavouriteHome, favouriteHome } from "./Db";
 
@@ -17,10 +17,12 @@ interface State {
   isFavorite: boolean;
 }
 
-export function HomeTileView(props: { home: Home }) {
+export function HomeTileView(props: {
+  home: Home;
+  onUnfavourite: (homeId: number) => void;
+}) {
   const [state, setState] = useState<State>({ isFavorite: false });
   useEffect(() => {
-    console.log("FIRE" + props.home.id);
     getFavouriteHomeById(props.home.id, (home: Home | undefined) => {
       if (home !== undefined) {
         setState({ isFavorite: true });
@@ -37,9 +39,8 @@ export function HomeTileView(props: { home: Home }) {
 
   function removeFavourite() {
     removeFavouriteHome(props.home);
-    console.log("removig");
-
     setState({ isFavorite: false });
+    props.onUnfavourite(props.home.id);
   }
   const favouriteButton = (isFavourite: boolean) => {
     return isFavourite ? (
@@ -79,7 +80,7 @@ export function HomeTileView(props: { home: Home }) {
             </div>
           </div>
           <div className="level-right">
-            <a className="level-item">
+            <a className="level-item" onClick={(_)=> copyToClipboard(props.home.link)}>
               <span className="icon has-text-primary">
                 <i className="fas fa-share-alt"></i>
               </span>

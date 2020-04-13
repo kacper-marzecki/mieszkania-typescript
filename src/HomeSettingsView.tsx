@@ -19,7 +19,7 @@ export function HomeSettingsView(props: {
       .map((_) => <option selected={_ == selectedPrice}>{_}</option>);
 
   const cityOptions = [
-    <option disabled={true} selected={true}></option>,
+    <option disabled={true} selected={true} hidden={false}></option>,
   ].concat(props.cities.map((_) => <option>{_}</option>));
 
   const [state, setState] = useState<State>({
