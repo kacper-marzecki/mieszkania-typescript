@@ -1,6 +1,7 @@
-import { Home } from "./Model";
+import { Home, isHome } from "./Model";
 import { contains, openLink } from "./Utils";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { getFavouriteHomeById, removeFavouriteHome, favouriteHome } from "./Db";
 
 const imageForLink = (link: string) => {
   if (contains(link, "gumtree")) {
@@ -12,10 +13,49 @@ const imageForLink = (link: string) => {
   }
 };
 
+interface State {
+  isFavorite: boolean;
+}
+
 export function HomeTileView(props: { home: Home }) {
+  const [state, setState] = useState<State>({ isFavorite: false });
+  useEffect(() => {
+    console.log("FIRE" + props.home.id);
+    getFavouriteHomeById(props.home.id, (home: Home | undefined) => {
+      if (home !== undefined) {
+        setState({ isFavorite: true });
+      } else {
+        setState({ isFavorite: false });
+      }
+    });
+  }, [props.home.id]);
+
+  function addFavourite() {
+    favouriteHome(props.home);
+    setState({ isFavorite: true });
+  }
+
+  function removeFavourite() {
+    removeFavouriteHome(props.home);
+    console.log("removig");
+
+    setState({ isFavorite: false });
+  }
+  const favouriteButton = (isFavourite: boolean) => {
+    return isFavourite ? (
+      <a className="level-item" onClick={removeFavourite}>
+        <span className="has-text-danger icon  fas fa-heart"></span>
+      </a>
+    ) : (
+      <a className="level-item" onClick={addFavourite}>
+        <span className="icon has-text-grey-lighter fas fa-heart"></span>
+      </a>
+    );
+  };
+
   return (
     <article className="media">
-      <figure className="media">
+      <figure className="media m-r-md">
         <p className="image is-64x64 ">
           <img
             src={imageForLink(props.home.link)}
@@ -44,9 +84,7 @@ export function HomeTileView(props: { home: Home }) {
                 <i className="fas fa-share-alt"></i>
               </span>
             </a>
-            <a className="level-item">
-              <span className="icon has-text-grey-lighter fas fa-heart"></span>
-            </a>
+            {favouriteButton(state.isFavorite)}
           </div>
         </nav>
       </div>

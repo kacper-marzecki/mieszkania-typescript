@@ -8,7 +8,6 @@ interface State {
   cities: string[];
   page: number;
   homes: Page<Home> | null;
-  favouriteHomes: Home[];
   searchSettings: HomeSearchSettings;
 }
 
@@ -17,7 +16,6 @@ export function HomesView() {
     cities: [],
     page: 0,
     homes: null,
-    favouriteHomes: [],
     searchSettings: { city: "", lowerPrice: 0, upperPrice: 0 },
   });
   useEffect(() => {
@@ -25,9 +23,15 @@ export function HomesView() {
   }, []);
 
   const updateHomes = (settings: HomeSearchSettings, page: number) => {
-    getHomes({ ...settings, page: page }).then((_) =>
-      setState({ ...state, homes: _ })
-    );
+    getHomes({ ...settings, page: page }).then((_) => {
+      setState({
+        ...state,
+        searchSettings: settings,
+        page: _.number,
+        homes: _,
+      });
+      window.scrollTo(0, 0);
+    });
   };
 
   const searchHomes = (settings: HomeSearchSettings) => {
@@ -55,10 +59,8 @@ export function HomesView() {
       ) : (
         <HomeListView
           homes={state.homes}
-          favouriteHomes={state.favouriteHomes}
           previousPageClicked={getPreviousPage}
           nextPageClicked={getNextPage}
-          favouriteClicked={favouriteHome}
         ></HomeListView>
       )}
     </div>

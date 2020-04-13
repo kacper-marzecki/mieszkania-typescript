@@ -13,9 +13,8 @@ export function HomeSettingsView(props: {
   cities: string[];
   searchCallback: (s: HomeSearchSettings) => void;
 }): JSX.Element {
-  //         |> List.map(\n -> Html.option[Html.Attributes.selected(targetPrice == n)][text(String.fromInt n)])
   const priceOptions = (selectedPrice: number) =>
-    range(4, 40)
+    range(4, 41)
       .map((_) => _ * 250)
       .map((_) => <option selected={_ == selectedPrice}>{_}</option>);
 

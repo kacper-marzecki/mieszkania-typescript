@@ -2,13 +2,11 @@ import { Home, Page } from "./Model";
 import React from "react";
 import { contains, openLink } from "./Utils";
 import { HomeTileView } from "./HomeTileView";
-
+import { getFavouriteHomes } from "./Db";
 export function HomeListView(params: {
   homes: Page<Home>;
-  favouriteHomes: Home[];
   nextPageClicked: () => void;
   previousPageClicked: () => void;
-  favouriteClicked: (homeId: number) => void;
 }) {
   return (
     <div

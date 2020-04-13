@@ -7,11 +7,16 @@ export interface HomeSearchSettings {
 }
 
 export interface Home {
+  t: "Home";
   id: number;
   added: string;
   link: string;
   description: string;
   price: number;
+}
+
+export function isHome(obj: any): obj is Home {
+  return obj.t === "Home";
 }
 
 export interface Page<T> {

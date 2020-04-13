@@ -17,10 +17,8 @@ function App() {
     switch (page) {
       case "FAVOURITE_HOME_VIEW":
         return <FavouriteHomesView></FavouriteHomesView>;
-        break;
       case "MAIN_PAGE":
         return <HomesView></HomesView>;
-        break;
     }
   };
 
